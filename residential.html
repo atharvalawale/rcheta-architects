@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Rcheta Architects</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --amber:#D4873A;--amber-glow:rgba(212,135,58,0.12);
+  --ink:#0e0e0d;--ink-2:#171714;--ink-3:#1f1f1b;
+  --ash:#7a7670;--ghost:rgba(242,237,230,0.06);--line:rgba(242,237,230,0.08);
+  --white:#faf8f4;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --ease:cubic-bezier(0.25,0.46,0.45,0.94);
+  --ease-out:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+*{cursor:none!important;}
+.cursor-dot{position:fixed;z-index:9999;pointer-events:none;width:6px;height:6px;border-radius:50%;background:var(--amber);transform:translate(-50%,-50%);transition:transform 0.15s var(--ease);}
+.cursor-ring{position:fixed;z-index:9998;pointer-events:none;width:36px;height:36px;border-radius:50%;border:1px solid rgba(212,135,58,0.5);transform:translate(-50%,-50%);transition:all 0.2s var(--ease);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3.5rem;height:72px;background:rgba(14,14,13,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);}
+.nav-logo{font-family:var(--serif);font-size:1.35rem;font-weight:500;letter-spacing:0.12em;color:var(--white);text-decoration:none;}
+.nav-logo .accent{color:var(--amber);}
+.nav-center{display:flex;gap:3rem;list-style:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-center a{color:rgba(250,248,244,0.55);text-decoration:none;font-size:0.73rem;letter-spacing:0.18em;text-transform:uppercase;font-family:var(--mono);transition:color 0.3s;position:relative;padding-bottom:2px;}
+.nav-center a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--amber);transition:width 0.35s var(--ease);}
+.nav-center a:hover,.nav-center a.active{color:var(--white);}
+.nav-center a:hover::after,.nav-center a.active::after{width:100%;}
+.nav-cta{display:flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid rgba(212,135,58,0.45);color:var(--amber);padding:0.55rem 1.3rem;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:all 0.35s var(--ease);}
+.nav-cta:hover{background:var(--amber);color:var(--ink);}
+
+/* PAGE HEADER */
+.page-header{padding:10rem 4.5rem 5rem;background:var(--ink-2);position:relative;overflow:hidden;}
+.page-header::before{content:'PROJECTS';position:absolute;font-family:var(--serif);font-size:15vw;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.03);right:-1vw;bottom:-2rem;pointer-events:none;letter-spacing:-0.05em;white-space:nowrap;}
+.page-header-inner{position:relative;z-index:1;}
+.section-label{display:flex;align-items:center;gap:0.9rem;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--amber);margin-bottom:1.4rem;}
+.section-label::before{content:'';width:28px;height:1px;background:var(--amber);flex-shrink:0;}
+.page-header h1{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5.5rem);font-weight:400;line-height:1.05;margin-bottom:1.5rem;}
+.page-header h1 em{font-style:italic;color:var(--amber);}
+.page-header p{color:var(--ash);font-size:1rem;line-height:1.8;max-width:500px;font-weight:300;}
+
+/* FILTER */
+.filter-bar{padding:2rem 4.5rem;background:var(--ink-3);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:0;flex-wrap:wrap;}
+.filter-btn{background:none;border:none;border-right:1px solid var(--line);color:var(--ash);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.7rem 1.5rem;transition:all 0.3s;}
+.filter-btn:first-child{border-left:1px solid var(--line);}
+.filter-btn.active,.filter-btn:hover{background:var(--amber);color:var(--ink);}
+
+/* PROJECTS GRID */
+.projects-section{padding:5rem 4.5rem;background:var(--ink);}
+.category-title{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:2.5rem;padding-bottom:1rem;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:1rem;}
+.category-title span{color:var(--amber);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;}
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:6rem;}
+.proj-card{position:relative;overflow:hidden;aspect-ratio:4/3;background:var(--ink-3);}
+.proj-card.tall{aspect-ratio:3/4;}
+.proj-card.wide{grid-column:span 2;}
+.proj-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.7s var(--ease),filter 0.5s;filter:brightness(0.75) saturate(0.85);}
+.proj-card:hover img{transform:scale(1.06);filter:brightness(0.9) saturate(1);}
+.proj-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,13,0.92) 0%,rgba(14,14,13,0.1) 55%,transparent 100%);opacity:0;transition:opacity 0.4s;display:flex;flex-direction:column;justify-content:flex-end;padding:2rem;}
+.proj-card:hover .proj-overlay{opacity:1;}
+.proj-type{font-family:var(--mono);color:var(--amber);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:0.4rem;}
+.proj-title{font-family:var(--serif);font-size:1.2rem;font-weight:500;margin-bottom:0.3rem;}
+.proj-location{color:rgba(250,248,244,0.5);font-size:0.8rem;font-family:var(--mono);display:flex;align-items:center;gap:0.4rem;}
+.proj-location::before{content:'📍';font-size:0.7rem;}
+
+/* Always visible label for accessibility */
+.proj-label{position:absolute;bottom:0;left:0;right:0;padding:1rem 1.5rem;background:linear-gradient(to top,rgba(14,14,13,0.85),transparent);display:flex;flex-direction:column;}
+.proj-label .proj-type{opacity:1;}
+.proj-label .proj-title{opacity:1;}
+.proj-label .proj-location{opacity:0.7;}
+
+/* OTHER PAGE LINK */
+.page-link-banner{background:var(--ink-3);border:1px solid var(--line);padding:3rem 4.5rem;display:flex;align-items:center;justify-content:space-between;margin:0 4.5rem 5rem;flex-wrap:wrap;gap:1.5rem;transition:border-color 0.3s;}
+.page-link-banner:hover{border-color:rgba(212,135,58,0.3);}
+.page-link-banner h3{font-family:var(--serif);font-size:1.6rem;font-weight:400;}
+.page-link-banner h3 em{font-style:italic;color:var(--amber);}
+.page-link-banner p{color:var(--ash);font-size:0.88rem;margin-top:0.4rem;}
+.page-link-banner a{display:flex;align-items:center;gap:0.8rem;background:var(--amber);color:var(--ink);padding:0.9rem 2rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;transition:background 0.3s;white-space:nowrap;}
+.page-link-banner a:hover{background:#e09848;}
+
+/* FOOTER */
+footer{background:#080807;padding:3.5rem 4.5rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);flex-wrap:wrap;gap:1.5rem;}
+.footer-logo{font-family:var(--serif);font-size:1.4rem;font-weight:500;letter-spacing:0.1em;}
+.footer-logo .accent{color:var(--amber);}
+.footer-tagline{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(250,248,244,0.2);margin-top:0.4rem;}
+footer .copy{font-family:var(--mono);font-size:0.65rem;color:rgba(250,248,244,0.2);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.7s var(--ease-out),transform 0.7s var(--ease-out);}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:0.1s;}
+.reveal-delay-2{transition-delay:0.2s;}
+.reveal-delay-3{transition-delay:0.3s;}
+.reveal-delay-4{transition-delay:0.4s;}
+.reveal-delay-5{transition-delay:0.5s;}
+
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}.nav-center{display:none;}
+  .page-header{padding:8rem 2rem 4rem;}
+  .filter-bar{padding:1.5rem 2rem;}
+  .projects-section{padding:3rem 2rem;}
+  .projects-grid{grid-template-columns:1fr 1fr;}
+  .proj-card.wide{grid-column:span 2;}
+  .page-link-banner{margin:0 2rem 4rem;padding:2rem;}
+  footer{padding:2.5rem 2rem;flex-direction:column;}
+}
+@media(max-width:600px){
+  .projects-grid{grid-template-columns:1fr;}
+  .proj-card.wide{grid-column:span 1;}
+  .proj-overlay{opacity:1;}
+}
+</style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">RCHET<span class="accent">A</span></a>
+  <ul class="nav-center">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="residential.html" class="active">Projects</a></li>
+    <li><a href="interior.html">Interiors</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Get Consultation</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div class="section-label">Our Portfolio</div>
+    <h1>Selected <em>Projects</em></h1>
+    <p>Residential homes, commercial complexes, and mixed-use developments across Maharashtra — each designed with care and built with precision.</p>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-bar">
+  <button class="filter-btn active" onclick="filterProjects('all',this)">All</button>
+  <button class="filter-btn" onclick="filterProjects('residential',this)">Residential</button>
+  <button class="filter-btn" onclick="filterProjects('commercial',this)">Commercial</button>
+  <button class="filter-btn" onclick="filterProjects('complex',this)">Complexes</button>
+  <button class="filter-btn" onclick="filterProjects('mixed',this)">Mixed Use</button>
+</div>
+
+<!-- PROJECTS -->
+<section class="projects-section">
+
+  <!-- RESIDENTIAL -->
+  <div class="category-section" data-cat="residential">
+    <h2 class="category-title reveal">Residential <span>Bungalows & Villas</span></h2>
+    <div class="projects-grid">
+      <div class="proj-card wide reveal" data-cat="residential">
+        <img src="javli-bungalow.jpeg" alt="Javli Bungalow">
+        <div class="proj-overlay">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">Modern Bungalow</div>
+          <div class="proj-location">Javli, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">Modern Bungalow</div>
+          <div class="proj-location">Javli, Satara</div>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-2" data-cat="residential">
+        <img src="shahupuri-villa.jpeg" alt="Shahupuri Villa">
+        <div class="proj-overlay">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">Double Storey Villa</div>
+          <div class="proj-location">Shahupuri, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">Double Storey Villa</div>
+          <div class="proj-location">Shahupuri, Satara</div>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-1" data-cat="residential">
+        <img src="umbraj-residence.jpeg" alt="Umbraj Home">
+        <div class="proj-overlay">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">Contemporary Residence</div>
+          <div class="proj-location">Umbraj, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">Contemporary Residence</div>
+          <div class="proj-location">Umbraj, Satara</div>
+        </div>
+      </div>
+      <div class="proj-card wide reveal reveal-delay-3" data-cat="residential">
+        <img src="mhasve-aframe.jpeg" alt="A-Frame Mhasve">
+        <div class="proj-overlay">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">A-Frame Residence</div>
+          <div class="proj-location">Mhasve, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Residential</div>
+          <div class="proj-title">A-Frame Residence</div>
+          <div class="proj-location">Mhasve, Satara</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMPLEXES -->
+  <div class="category-section" data-cat="complex">
+    <h2 class="category-title reveal">Residential <span>Complexes</span></h2>
+    <div class="projects-grid">
+      <div class="proj-card wide reveal" data-cat="complex">
+        <img src="karanje-apartment-1.jpeg" alt="Karanje Complex">
+        <div class="proj-overlay">
+          <div class="proj-type">Residential Complex</div>
+          <div class="proj-title">Multi-Storey Apartment Block</div>
+          <div class="proj-location">Karanje Turf, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Residential Complex</div>
+          <div class="proj-title">Multi-Storey Apartment Block</div>
+          <div class="proj-location">Karanje Turf, Satara</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMMERCIAL -->
+  <div class="category-section" data-cat="commercial">
+    <h2 class="category-title reveal">Commercial <span>Projects</span></h2>
+    <div class="projects-grid">
+      <div class="proj-card reveal" data-cat="commercial">
+        <img src="saidapur-commercial-1.jpeg" alt="Saidapur Commercial">
+        <div class="proj-overlay">
+          <div class="proj-type">Commercial</div>
+          <div class="proj-title">Commercial Complex</div>
+          <div class="proj-location">Saidapur</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Commercial</div>
+          <div class="proj-title">Commercial Complex</div>
+          <div class="proj-location">Saidapur</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MIXED USE -->
+  <div class="category-section" data-cat="mixed">
+    <h2 class="category-title reveal">Mixed Use <span>Projects</span></h2>
+    <div class="projects-grid">
+      <div class="proj-card wide reveal" data-cat="mixed">
+        <img src="umbraj-mixeduse-1.jpeg" alt="Umbraj Mixed Use">
+        <div class="proj-overlay">
+          <div class="proj-type">Mixed Use</div>
+          <div class="proj-title">Commercial & Residential Complex</div>
+          <div class="proj-location">Umbraj, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Mixed Use</div>
+          <div class="proj-title">Commercial & Residential Complex</div>
+          <div class="proj-location">Umbraj, Satara</div>
+        </div>
+      </div>
+      <div class="proj-card reveal reveal-delay-1" data-cat="mixed">
+        <img src="umbraj-mixeduse-2.jpeg" alt="Umbraj Mixed Use 2">
+        <div class="proj-overlay">
+          <div class="proj-type">Mixed Use</div>
+          <div class="proj-title">Proposed Commercial & Residential</div>
+          <div class="proj-location">Umbraj, Satara</div>
+        </div>
+        <div class="proj-label">
+          <div class="proj-type">Mixed Use</div>
+          <div class="proj-title">Proposed Commercial & Residential</div>
+          <div class="proj-location">Umbraj, Satara</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- INTERIOR LINK BANNER -->
+<div class="page-link-banner">
+  <div>
+    <h3>Also Explore Our <em>Interior Work</em></h3>
+    <p>14 stunning interior renders from Mhasve, Satara — living spaces and kitchens designed to inspire.</p>
+  </div>
+  <a href="interior.html">View Interiors →</a>
+</div>
+
+<footer>
+  <div><div class="footer-logo">RCHET<span class="accent">A</span> ARCHITECTS</div><div class="footer-tagline">Design · Plan · Build</div></div>
+  <p class="copy">© 2025 Rcheta Architects. Satara, Maharashtra.</p>
+</footer>
+
+<script>
+const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.proj-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.transform='translate(-50%,-50%) scale(1.6)';ring.style.borderColor='var(--amber)';});
+  el.addEventListener('mouseleave',()=>{dot.style.transform='translate(-50%,-50%) scale(1)';ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(212,135,58,0.5)';});
+});
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');}),{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+function filterProjects(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.category-section').forEach(sec=>{
+    if(cat==='all'||sec.dataset.cat===cat){sec.style.display='block';}
+    else{sec.style.display='none';}
+  });
+}
+</script>
+</body>
+</html>

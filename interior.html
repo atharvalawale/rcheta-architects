@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interiors — Rcheta Architects</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --amber:#D4873A;--amber-glow:rgba(212,135,58,0.12);
+  --ink:#0e0e0d;--ink-2:#171714;--ink-3:#1f1f1b;
+  --ash:#7a7670;--ghost:rgba(242,237,230,0.06);--line:rgba(242,237,230,0.08);
+  --white:#faf8f4;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --ease:cubic-bezier(0.25,0.46,0.45,0.94);
+  --ease-out:cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--ink);color:var(--white);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+*{cursor:none!important;}
+.cursor-dot{position:fixed;z-index:9999;pointer-events:none;width:6px;height:6px;border-radius:50%;background:var(--amber);transform:translate(-50%,-50%);transition:transform 0.15s var(--ease);}
+.cursor-ring{position:fixed;z-index:9998;pointer-events:none;width:36px;height:36px;border-radius:50%;border:1px solid rgba(212,135,58,0.5);transform:translate(-50%,-50%);transition:all 0.2s var(--ease);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3.5rem;height:72px;background:rgba(14,14,13,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--line);}
+.nav-logo{font-family:var(--serif);font-size:1.35rem;font-weight:500;letter-spacing:0.12em;color:var(--white);text-decoration:none;}
+.nav-logo .accent{color:var(--amber);}
+.nav-center{display:flex;gap:3rem;list-style:none;position:absolute;left:50%;transform:translateX(-50%);}
+.nav-center a{color:rgba(250,248,244,0.55);text-decoration:none;font-size:0.73rem;letter-spacing:0.18em;text-transform:uppercase;font-family:var(--mono);transition:color 0.3s;position:relative;padding-bottom:2px;}
+.nav-center a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--amber);transition:width 0.35s var(--ease);}
+.nav-center a:hover,.nav-center a.active{color:var(--white);}
+.nav-center a:hover::after,.nav-center a.active::after{width:100%;}
+.nav-cta{display:flex;align-items:center;gap:0.5rem;background:transparent;border:1px solid rgba(212,135,58,0.45);color:var(--amber);padding:0.55rem 1.3rem;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;transition:all 0.35s var(--ease);}
+.nav-cta:hover{background:var(--amber);color:var(--ink);}
+
+/* PAGE HEADER */
+.page-header{padding:10rem 4.5rem 5rem;background:var(--ink-2);position:relative;overflow:hidden;}
+.page-header::before{content:'INTERIORS';position:absolute;font-family:var(--serif);font-size:13vw;font-weight:700;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,0.03);right:-1vw;bottom:-2rem;pointer-events:none;letter-spacing:-0.05em;white-space:nowrap;}
+.page-header-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;}
+.section-label{display:flex;align-items:center;gap:0.9rem;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--amber);margin-bottom:1.4rem;}
+.section-label::before{content:'';width:28px;height:1px;background:var(--amber);flex-shrink:0;}
+.page-header h1{font-family:var(--serif);font-size:clamp(2.5rem,6vw,5.5rem);font-weight:400;line-height:1.05;margin-bottom:1.5rem;}
+.page-header h1 em{font-style:italic;color:var(--amber);}
+.page-header-desc p{color:var(--ash);font-size:0.95rem;line-height:1.85;font-weight:300;margin-bottom:1rem;}
+.page-header-meta{display:flex;gap:2rem;margin-top:2rem;padding-top:2rem;border-top:1px solid var(--line);}
+.meta-item .num{font-family:var(--serif);font-size:2rem;color:var(--amber);display:block;line-height:1;}
+.meta-item .label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--ash);margin-top:0.2rem;}
+
+/* HERO INTERIOR IMAGE */
+.interior-hero{height:70vh;position:relative;overflow:hidden;}
+.interior-hero img{width:100%;height:100%;object-fit:cover;filter:brightness(0.7);}
+.interior-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,13,0.6) 0%,transparent 60%);}
+
+/* MASONRY GALLERY */
+.gallery-section{padding:5rem 4.5rem;background:var(--ink);}
+.gallery-intro{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;}
+.gallery-intro h2{font-family:var(--serif);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:400;}
+.gallery-intro p{color:var(--ash);font-size:0.88rem;max-width:300px;line-height:1.7;}
+
+/* Pinterest-style masonry */
+.masonry{columns:3;column-gap:3px;}
+.masonry-item{break-inside:avoid;margin-bottom:3px;position:relative;overflow:hidden;display:block;}
+.masonry-item img{width:100%;display:block;transition:transform 0.7s var(--ease),filter 0.5s;filter:brightness(0.78) saturate(0.85);}
+.masonry-item:hover img{transform:scale(1.04);filter:brightness(0.92) saturate(1);}
+.masonry-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(14,14,13,0.85) 0%,transparent 50%);opacity:0;transition:opacity 0.4s;display:flex;align-items:flex-end;padding:1.5rem;}
+.masonry-item:hover .masonry-overlay{opacity:1;}
+.masonry-info .room{font-family:var(--mono);color:var(--amber);font-size:0.62rem;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:0.3rem;}
+.masonry-info .loc{color:rgba(250,248,244,0.6);font-size:0.78rem;font-family:var(--mono);}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:1000;background:rgba(8,8,7,0.97);backdrop-filter:blur(20px);align-items:center;justify-content:center;}
+.lightbox.active{display:flex;}
+.lightbox-img{max-width:90vw;max-height:88vh;object-fit:contain;border:1px solid var(--line);}
+.lightbox-close{position:absolute;top:2rem;right:2rem;background:none;border:none;color:var(--white);font-size:2rem;font-family:var(--mono);opacity:0.6;transition:opacity 0.3s;line-height:1;}
+.lightbox-close:hover{opacity:1;}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);display:flex;gap:0;width:100%;justify-content:space-between;padding:0 2rem;pointer-events:none;}
+.lightbox-prev,.lightbox-next{pointer-events:all;background:rgba(212,135,58,0.15);border:1px solid rgba(212,135,58,0.3);color:var(--white);width:50px;height:50px;display:flex;align-items:center;justify-content:center;transition:all 0.3s;font-size:1.2rem;}
+.lightbox-prev:hover,.lightbox-next:hover{background:var(--amber);color:var(--ink);}
+.lightbox-counter{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;color:rgba(250,248,244,0.4);}
+.lightbox-caption{position:absolute;bottom:4rem;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);text-align:center;}
+
+/* PROJECTS LINK BANNER */
+.page-link-banner{background:var(--ink-3);border:1px solid var(--line);padding:3rem 4.5rem;display:flex;align-items:center;justify-content:space-between;margin:0 4.5rem 5rem;flex-wrap:wrap;gap:1.5rem;transition:border-color 0.3s;}
+.page-link-banner:hover{border-color:rgba(212,135,58,0.3);}
+.page-link-banner h3{font-family:var(--serif);font-size:1.6rem;font-weight:400;}
+.page-link-banner h3 em{font-style:italic;color:var(--amber);}
+.page-link-banner p{color:var(--ash);font-size:0.88rem;margin-top:0.4rem;}
+.page-link-banner a{display:flex;align-items:center;gap:0.8rem;background:var(--amber);color:var(--ink);padding:0.9rem 2rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;transition:background 0.3s;white-space:nowrap;}
+.page-link-banner a:hover{background:#e09848;}
+
+/* FOOTER */
+footer{background:#080807;padding:3.5rem 4.5rem;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);flex-wrap:wrap;gap:1.5rem;}
+.footer-logo{font-family:var(--serif);font-size:1.4rem;font-weight:500;letter-spacing:0.1em;}
+.footer-logo .accent{color:var(--amber);}
+.footer-tagline{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(250,248,244,0.2);margin-top:0.4rem;}
+footer .copy{font-family:var(--mono);font-size:0.65rem;color:rgba(250,248,244,0.2);}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.7s var(--ease-out),transform 0.7s var(--ease-out);}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}.nav-center{display:none;}
+  .page-header{padding:8rem 2rem 4rem;}
+  .page-header-inner{grid-template-columns:1fr;}
+  .gallery-section{padding:3rem 2rem;}
+  .masonry{columns:2;}
+  .page-link-banner{margin:0 2rem 4rem;padding:2rem;}
+  footer{padding:2.5rem 2rem;flex-direction:column;}
+}
+@media(max-width:600px){.masonry{columns:1;}}
+</style>
+</head>
+<body>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightboxBtn()">✕</button>
+  <div class="lightbox-nav">
+    <button class="lightbox-prev" onclick="navLightbox(-1)">‹</button>
+    <button class="lightbox-next" onclick="navLightbox(1)">›</button>
+  </div>
+  <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">RCHET<span class="accent">A</span></a>
+  <ul class="nav-center">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="residential.html">Projects</a></li>
+    <li><a href="interior.html" class="active">Interiors</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <a href="index.html#contact" class="nav-cta">Get Consultation</a>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-inner">
+    <div>
+      <div class="section-label">Interior Design</div>
+      <h1>Spaces That <em>Breathe</em><br>& Inspire</h1>
+    </div>
+    <div class="page-header-desc">
+      <p>Our interior design work transforms bare structures into living environments full of warmth, functionality, and personality. Every detail is considered — from spatial flow to material texture.</p>
+      <p>This project showcases a complete living and kitchen interior developed for a residence in Mhasve, Satara.</p>
+      <div class="page-header-meta">
+        <div class="meta-item"><span class="num">14</span><span class="label">Interior Renders</span></div>
+        <div class="meta-item"><span class="num">2</span><span class="label">Space Types</span></div>
+        <div class="meta-item"><span class="num">1</span><span class="label">Project Location</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO IMAGE -->
+<div class="interior-hero">
+  <img src="interior-000.jpg" alt="Interior Hero">
+  <div class="interior-hero-overlay"></div>
+</div>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="gallery-intro reveal">
+    <div>
+      <div class="section-label">Gallery</div>
+      <h2>Living & Kitchen<br>Interior Renders</h2>
+    </div>
+    <p>Mhasve, Satara — Click any image to view full screen.</p>
+  </div>
+
+  <div class="masonry" id="masonryGrid">
+    <div class="masonry-item reveal" onclick="openLightbox(0)">
+      <img src="interior-000.jpg" alt="Interior 1">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Living Room</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(1)">
+      <img src="interior-001.jpg" alt="Interior 2">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Kitchen</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(2)">
+      <img src="interior-002.jpg" alt="Interior 3">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Living Room</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(3)">
+      <img src="interior-003.jpg" alt="Interior 4">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Dining Area</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(4)">
+      <img src="interior-004.jpg" alt="Interior 5">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Kitchen</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(5)">
+      <img src="interior-005.jpg" alt="Interior 6">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Living Room</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(6)">
+      <img src="interior-006.jpg" alt="Interior 7">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Interior Detail</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(7)">
+      <img src="interior-007.jpg" alt="Interior 8">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Kitchen</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(8)">
+      <img src="interior-008.jpg" alt="Interior 9">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Living Space</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(9)">
+      <img src="interior-009.jpg" alt="Interior 10">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Kitchen</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(10)">
+      <img src="interior-010.jpg" alt="Interior 11">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Living Room</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(11)">
+      <img src="interior-011.jpg" alt="Interior 12">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Interior View</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(12)">
+      <img src="interior-012.jpg" alt="Interior 13">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Kitchen Detail</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+    <div class="masonry-item reveal" onclick="openLightbox(13)">
+      <img src="interior-013.jpg" alt="Interior 14">
+      <div class="masonry-overlay"><div class="masonry-info"><div class="room">Living & Kitchen</div><div class="loc">📍 Mhasve, Satara</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS LINK BANNER -->
+<div class="page-link-banner">
+  <div>
+    <h3>Explore Our <em>Architecture Projects</em></h3>
+    <p>Residential bungalows, commercial complexes, and mixed-use developments across Maharashtra.</p>
+  </div>
+  <a href="residential.html">View Projects →</a>
+</div>
+
+<footer>
+  <div><div class="footer-logo">RCHET<span class="accent">A</span> ARCHITECTS</div><div class="footer-tagline">Design · Plan · Build</div></div>
+  <p class="copy">© 2025 Rcheta Architects. Satara, Maharashtra.</p>
+</footer>
+
+<script>
+const dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button,.masonry-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{dot.style.transform='translate(-50%,-50%) scale(2.5)';ring.style.transform='translate(-50%,-50%) scale(1.6)';ring.style.borderColor='var(--amber)';});
+  el.addEventListener('mouseleave',()=>{dot.style.transform='translate(-50%,-50%) scale(1)';ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(212,135,58,0.5)';});
+});
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');}),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Lightbox
+const images=[
+  {src:'interior-000.jpg',cap:'Living Room — Mhasve, Satara'},
+  {src:'interior-001.jpg',cap:'Kitchen — Mhasve, Satara'},
+  {src:'interior-002.jpg',cap:'Living Room — Mhasve, Satara'},
+  {src:'interior-003.jpg',cap:'Dining Area — Mhasve, Satara'},
+  {src:'interior-004.jpg',cap:'Kitchen — Mhasve, Satara'},
+  {src:'interior-005.jpg',cap:'Living Room — Mhasve, Satara'},
+  {src:'interior-006.jpg',cap:'Interior Detail — Mhasve, Satara'},
+  {src:'interior-007.jpg',cap:'Kitchen — Mhasve, Satara'},
+  {src:'interior-008.jpg',cap:'Living Space — Mhasve, Satara'},
+  {src:'interior-009.jpg',cap:'Kitchen — Mhasve, Satara'},
+  {src:'interior-010.jpg',cap:'Living Room — Mhasve, Satara'},
+  {src:'interior-011.jpg',cap:'Interior View — Mhasve, Satara'},
+  {src:'interior-012.jpg',cap:'Kitchen Detail — Mhasve, Satara'},
+  {src:'interior-013.jpg',cap:'Living & Kitchen — Mhasve, Satara'},
+];
+let currentIdx=0;
+function openLightbox(idx){
+  currentIdx=idx;
+  const lb=document.getElementById('lightbox');
+  lb.classList.add('active');
+  updateLightbox();
+  document.body.style.overflow='hidden';
+}
+function updateLightbox(){
+  document.getElementById('lightboxImg').src=images[currentIdx].src;
+  document.getElementById('lightboxCaption').textContent=images[currentIdx].cap;
+  document.getElementById('lightboxCounter').textContent=(currentIdx+1)+' / '+images.length;
+}
+function closeLightboxBtn(){document.getElementById('lightbox').classList.remove('active');document.body.style.overflow='';}
+function closeLightbox(e){if(e.target===document.getElementById('lightbox'))closeLightboxBtn();}
+function navLightbox(dir){currentIdx=(currentIdx+dir+images.length)%images.length;updateLightbox();}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('lightbox').classList.contains('active')){
+    if(e.key==='ArrowRight')navLightbox(1);
+    if(e.key==='ArrowLeft')navLightbox(-1);
+    if(e.key==='Escape')closeLightboxBtn();
+  }
+});
+</script>
+</body>
+</html>
